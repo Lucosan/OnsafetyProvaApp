@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      src="https://kit.fontawesome.com/35e01827ac.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <title>Aplicação Crud Onsafety</title>
+  </head>
+  <body class="bg-gray-800">
+    <div class="max-w-3xl mx-auto mt-4 text-gray-200 py-8">
+      <header class="my-4">
+        <ul class="flex gap-2 justify-center">
+          <li>
+            <a
+              href="/index.html"
+              class="inline-block w-20 py-2 text-center bg-indigo-500 hover:bg-indigo-400 text-gray-200 rounded-md"
+              >Listar</a
+            >
+          </li>
+          <li>
+            <a
+              href="/create.html"
+              class="inline-block w-20 py-2 text-center bg-indigo-500 hover:bg-indigo-400 text-gray-200 rounded-md"
+              >Criar</a
+            >
+          </li>
+        </ul>
+      </header>
+      <div class="p-2 mt-4">
+        <h2 class="text-4xl mt-4 mb-8 text-center">Criar nova Pessoa</h2>
+        <form
+          action="#"
+          method="POST"
+          class="max-w-lg mx-auto border-2 border-indigo-500 p-5"
+        >
+          <label for="nome" class="block text-xl bold">Nome</label>
+          <input
+            type="text"
+            name="nome"
+            id="nome"
+            placeholder="Nome"
+            class="pl-2 py-2 bg-gray-900 rounded-md border-0 outline-1 outline-indigo-200 mt-2 w-full"
+          />
+          <label for="cpf" class="block text-xl bold">CPF</label>
+          <input
+            type="text"
+            name="cpf"
+            id="cpf"
+            placeholder="000.000.000-00"
+            class="pl-2 py-2 bg-gray-900 rounded-md border-0 outline-1 outline-indigo-200 mt-2 w-full"
+          />
+          <label for="data-nascimento" class="mt-4 block text-xl bold"
+            >Data de nascimento</label
+          >
+          <input
+            type="date"
+            name="data-nascimento"
+            id="data-nascimento"
+            class="pl-2 py-2 bg-gray-900 rounded-md border-0 outline-1 outline-indigo-200 mt-2 w-full"
+          />
+          <label for="email" class="mt-4 block text-xl bold">E-mail</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="email@example.com"
+            class="pl-2 py-2 bg-gray-900 rounded-md border-0 outline-1 outline-indigo-200 mt-2 w-full"
+          />
+
+          <button
+            id="submit"
+            class="py-1 px-2 bg-indigo-500 transition-all duration-300 hover:bg-indigo-600 text-gray-200 rounded-lg text-2xl mt-4">
+            Adicionar nova Pessoa
+          </button>
+        </form>
+      </div>
+    </div>
+    <script>
+      let submitBtn = document.querySelector("submit");
+      submitBtn.addEventListener("click", (event) => {
+        function value(s) {
+          return document.querySelector(s).value;
+        }
+        event.preventDefault();
+        const formData = {
+          nome: value("nome"),
+          cpf: value("cpf"),
+          dataNascimento: value("data-nascimento"),
+          email: value("email"),
+        };
+        console.log(formData);
+         fetch("localhost:8080/pessoas/criar", {
+           method: "POST",
+           body: JSON.parse(formData),
+         })
+           .then((res) => res.text("Pessoa Criada Com sucesso"))
+           .then((res) => window.alert(res));
+      });
+    </script>
+  </body>
+</html>

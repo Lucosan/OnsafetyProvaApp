@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ProvaonsafetyApplication<provaonsafety>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.lucca.provaonsafety.ProvaonsafetyApplication",
+            "projectName": "provaonsafety",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

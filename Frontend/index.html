@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/35e01827ac.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>Aplicação Crud</title>
+  </head>
+  <body class="bg-gray-800">
+    <script>
+      let users;
+      function xData() {
+        return {
+          users: null,
+          fetchUsers() {
+            fetch("http://localhost:8080/pessoas/listar")
+              .then((data) => data.json())
+              .then((data) => {
+                this.users = data;
+                this.isReady = true;
+              });
+          },
+          deleteItem(id) {
+            fetch("http://localhost:8080//apaga/{id}", {
+              method: "DELETE",
+              body: id,
+            })
+              .then((res) => res.text())
+              .then(window.alert("Deletado com sucesso"));
+          },
+        };
+      }
+    </script>
+    <div class="max-w-5xl mx-auto mt-4" x-data="xData()" x-init="fetchUsers()">
+      <header class="my-4">
+        <ul class="flex gap-2 justify-center">
+          <li>
+            <a
+              href="/index.html"
+              class="inline-block w-20 py-2 text-center bg-indigo-500 hover:bg-indigo-400 text-gray-200 rounded-md"
+              >Listar</a
+            >
+          </li>
+          <li>
+            <a
+              href="/create.html"
+              class="inline-block w-20 py-2 text-center bg-indigo-500 hover:bg-indigo-400 text-gray-200 rounded-md"
+              >Criar</a
+            >
+          </li>
+        </ul>
+      </header>
+      <h2 class="text-4xl mt-4 mb-8 text-center text-gray-200">
+        Lista de cadastrados
+      </h2>
+      <div
+        class="overflow-x-auto relative max-w-4xl mx-auto border border-gray-500"
+      >
+        <template x-if="users.length>1">
+          <table class="w-full text-sm text-left text-gray-400">
+            <thead class="text-xs uppercase bg-gray-700 text-gray-400">
+              <tr>
+                <th scope="col" class="py-3 px-6">Nome</th>
+                <th scope="col" class="py-3 px-6">CPF</th>
+                <th scope="col" class="py-3 px-6">Data de nascimento</th>
+                <th scope="col" class="py-3 px-6">E-mail</th>
+                <th scope="col" class="py-3 px-6">Editar</th>
+                <th scope="col" class="py-3 px-6">Excluir</th>
+              </tr>
+            </thead>
+            <tbody>
+              <template x-for="user in users">
+                <tr class="border-b bg-gray-800 border-gray-700">
+                  <th
+                    scope="row"
+                    class="py-4 px-6 font-medium whitespace-nowrap text-white"
+                  >
+                    <span x-text="user.nome"></span>
+                  </th>
+                  <td class="py-4 px-6">
+                    <span x-text="user.cpf"></span>
+                  </td>
+                  <td class="py-4 px-6">
+                    <span x-text="user.dataNascimento">10/08/0000</span>
+                  </td>
+                  <td class="py-4 px-6">
+                    <span x-text="user.email"></span>
+                  </td>
+                  <td class="py-4 px-6">
+                    <a
+                      id="user.id"
+                      x-bind:href="'/edit.html?id='+user.id"
+                      class="p-2 bg-indigo-500 rounded-md text-gray-200"
+                    >
+                      <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                  </td>
+                  <td class="py-4 px-6">
+                    <a
+                      @click="deleteItem(user.id)"
+                      href="#"
+                      class="p-2 bg-red-500 rounded-md text-gray-200"
+                    >
+                      <i class="fa-solid fa-trash"></i>
+                    </a>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </template>
+      </div>
+    </div>
+  </body>
+</html>
